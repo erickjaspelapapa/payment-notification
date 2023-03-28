@@ -21,11 +21,12 @@ const NoRowsOverlay: React.FC = () => (
 
 const TableView = ({ columns, data, loading }: TableViewProps) => {
   return (
-    <Box>
+    <Box sx={{ height: 600, width: "100%" }}>
       <DataGrid
         rows={data}
         columns={columns}
         loading={loading}
+        pageSizeOptions={[20, 40, 60]}
         components={{ NoRowsOverlay }}
         initialState={{
           columns: {
