@@ -1,0 +1,47 @@
+import { FolderOff } from "@mui/icons-material";
+import { Box, Stack, Typography } from "@mui/material";
+import { grey } from "@mui/material/colors";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
+
+type TableViewProps = {
+  columns: GridColDef[];
+  data: any;
+  loading: boolean;
+};
+
+const NoRowsOverlay: React.FC = () => (
+  <Stack height="100%" alignItems="center" justifyContent="center">
+    <FolderOff
+      fontSize="large"
+      sx={{ fontSize: "60px", color: grey[700], mb: 2 }}
+    />
+    <Typography>Ooops! there&lsquo;s no data found</Typography>
+  </Stack>
+);
+
+const TableView = ({ columns, data, loading }: TableViewProps) => {
+  return (
+    <Box>
+      <DataGrid
+        rows={data}
+        columns={columns}
+        loading={loading}
+        components={{ NoRowsOverlay }}
+        initialState={{
+          columns: {
+            columnVisibilityModel: {
+              id: false,
+            },
+          },
+        }}
+        sx={{
+          "&.MuiDataGrid-root .MuiDataGrid-cell:focus": {
+            outline: "none",
+          },
+        }}
+      />
+    </Box>
+  );
+};
+
+export default TableView;
