@@ -1,28 +1,25 @@
 import { GridColDef } from "@mui/x-data-grid";
-import MouseIcon from "@mui/icons-material/Mouse";
 
 export const columns: GridColDef[] = [
   {
     field: "action",
-    headerName: "",
-    headerAlign: "center",
-    width: 200,
-    renderHeader: () => <MouseIcon color="primary" />,
+    headerName: "Actions",
+    width: 150,
   },
   {
     field: "id",
     headerName: "Id",
-    width: 50,
+    width: 200,
   },
   {
     field: "client",
     headerName: "Client",
-    width: 300,
+    width: 200,
   },
   {
     field: "address",
     headerName: "address",
-    width: 400,
+    width: 200,
   },
   {
     field: "client_terms",

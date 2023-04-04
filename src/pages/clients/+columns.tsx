@@ -15,52 +15,55 @@ export const columns: GridColDef[] = [
     width: 50,
   },
   {
-    field: "client",
+    field: "clientId",
+    headerName: "Id",
+  },
+  {
+    field: "clientName",
     headerName: "Client",
+    width: 300,
+  },
+  {
+    field: "clientContactNumber",
+    headerName: "Contact Number",
+    width: 200,
+  },
+  {
+    field: "bldgBlock",
+    headerName: "Block",
+  },
+  {
+    field: "bldgLot",
+    headerName: "Lot",
+  },
+  {
+    field: "totalContractPrice",
+    headerName: "Contract Price",
     width: 250,
   },
   {
-    // Annual | Quarter | Monthly
-    field: "client_terms",
-    headerName: "Terms",
-    flex: 1,
+    field: "dateStartMonthlyPay",
+    headerName: "First Monthly Pay",
+    width: 250,
   },
   {
-    //Cleared | For Payment | OverDue
-    field: "status",
-    headerName: "Status",
-    flex: 1,
+    field: "transferFee",
+    headerName: "Transfer Fee",
+    width: 250,
   },
   {
-    // Sent | Pending
-    field: "notif_status",
-    headerName: "Notification",
-    flex: 1,
+    field: "transTypeId",
+    headerName: "Transfer Type",
+    width: 250,
   },
   {
-    //Paid | Unpaid
-    field: "payment_status",
-    headerName: "Payment Status",
-    flex: 1,
+    field: "agentId",
+    headerName: "Agent",
+    width: 250,
   },
   {
-    field: "due_date",
-    headerName: "Due Date",
-    flex: 1,
-  },
-  {
-    field: "contract_price",
-    headerName: "Contract Price",
-    flex: 1,
-  },
-  {
-    field: "outstanding_balance",
-    headerName: "Balance",
-    flex: 1,
-  },
-  {
-    field: "date_created",
-    headerName: "Date Created",
-    flex: 1,
+    field: "projGrpId",
+    headerName: "Project Group",
+    width: 250,
   },
 ];

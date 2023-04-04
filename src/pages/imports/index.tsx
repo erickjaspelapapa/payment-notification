@@ -1,67 +1,15 @@
-import {
-  Box,
-  Button,
-  Card,
-  CardContent,
-  Grid,
-  Stack,
-  Typography,
-} from "@mui/material";
-import GroupAddIcon from "@mui/icons-material/GroupAdd";
-import React, { ChangeEvent } from "react";
-import UploadFileIcon from "@mui/icons-material/UploadFile";
+import { Box, Grid } from "@mui/material";
 
-import TableView from "../../components/TableGrid";
-import { columns } from "./+columns";
+import ImportList from "./imports-list";
 
 const ImportClient = () => {
-  const [loading, setLoading] = React.useState<boolean>(false);
-
   return (
     <Box>
-      <Card>
-        <CardContent>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <Stack direction="row" spacing={2} alignItems="center">
-                <GroupAddIcon fontSize="large" />
-                <Typography variant="h5"> Import Clients </Typography>
-              </Stack>
-            </Grid>
-            <Grid item xs={12}>
-              <Button
-                color="secondary"
-                component="label"
-                variant="contained"
-                startIcon={<UploadFileIcon />}
-                sx={{ marginRight: "1rem" }}
-              >
-                Upload CSV
-                <input type="file" accept=".csv" hidden />
-              </Button>
-            </Grid>
-            <Grid item xs={12}>
-              <TableView columns={columns} data={[]} loading={loading} />
-            </Grid>
-            <Grid
-              item
-              xs={12}
-              sx={{ display: "flex", justifyContent: "flex-end" }}
-            >
-              <Button
-                color="warning"
-                variant="contained"
-                sx={{ marginRight: 1 }}
-              >
-                Cancel
-              </Button>
-              <Button color="secondary" variant="contained">
-                Import
-              </Button>
-            </Grid>
-          </Grid>
-        </CardContent>
-      </Card>
+      <Grid container>
+        <Grid item xs={12}>
+          <ImportList />
+        </Grid>
+      </Grid>
     </Box>
   );
 };

@@ -38,11 +38,11 @@ const primaryNavItem: DrawerNavItem[] = [
     route: "/clients",
     icon: <GroupIcon />,
   },
-  {
-    title: "Import Clients",
-    route: "/imports",
-    icon: <GroupAddIcon />,
-  },
+  // {
+  //   title: "Import Clients",
+  //   route: "/imports",
+  //   icon: <GroupAddIcon />,
+  // },
   {
     title: "Settings",
     route: "/settings",
@@ -129,6 +129,7 @@ const Home = () => {
           bgcolor: "background.default",
           p: 3,
           paddingTop: 9,
+          width: "80%",
         }}
       >
         <Outlet
