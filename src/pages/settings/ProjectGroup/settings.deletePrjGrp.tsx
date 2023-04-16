@@ -7,34 +7,34 @@ import {
   DialogTitle,
 } from "@mui/material";
 
-import { agents } from "../../../types";
+import { projectGroups } from "../../../types";
 
-type AgentDeleteProps = {
-  agent: agents;
+type ProjGrpDeleteProps = {
+  prjGrp: projectGroups;
   state: boolean;
   closeDialog: () => void;
-  deleteAgent: (agentId: number) => void;
+  deletePrjGrp: (prjGrpId: number) => void;
 };
 
-const AgentDelete = ({
-  agent,
+const ProjGroupDelete = ({
+  prjGrp,
   state,
   closeDialog,
-  deleteAgent,
-}: AgentDeleteProps) => {
+  deletePrjGrp,
+}: ProjGrpDeleteProps) => {
   return (
     <Dialog open={state} onClose={closeDialog}>
-      <DialogTitle>Delete Agent</DialogTitle>
+      <DialogTitle>Delete Project Group</DialogTitle>
       <DialogContent>
         <DialogContentText>
-          {`Do you want to delete Agent [${agent.agentFirstName} ${agent.agentLastName}] ?`}
+          {`Do you want to delete Project Group [${prjGrp.projGrpDescription}] ?`}
         </DialogContentText>
       </DialogContent>
       <DialogActions>
         <Button color="primary" onClick={closeDialog}>
           Cancel
         </Button>
-        <Button color="error" onClick={() => deleteAgent(agent.id)} autoFocus>
+        <Button color="error" onClick={() => deletePrjGrp(prjGrp.id)} autoFocus>
           Confirm
         </Button>
       </DialogActions>
@@ -42,4 +42,4 @@ const AgentDelete = ({
   );
 };
 
-export default AgentDelete;
+export default ProjGroupDelete;

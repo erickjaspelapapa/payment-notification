@@ -2,13 +2,13 @@ import { Box, Button } from "@mui/material";
 import React from "react";
 import { useMutation, useQuery } from "react-query";
 import AddIcon from "@mui/icons-material/Add";
+import { toast } from "react-toastify";
 
 import TableView from "../../../components/TableView";
 import { columns } from "./+columns";
 import service from "../../../services/service";
 import { SETTINGS_AGENT } from "../../../utils/const";
 import { agents } from "../../../types";
-import { toast } from "react-toastify";
 import AgentDialog from "./settings.dialogAgent";
 import AgentDelete from "./settings.deleteAgent";
 
@@ -81,7 +81,7 @@ const SettingAgent = () => {
     {
       onSuccess: (data) => {
         getList();
-        toast.success(`Agent Deleted Succesfully!`);
+        toast.error(`Agent Deleted Succesfully!`);
       },
       onError: () => {
         toast.error(`Something went wrong!`);
@@ -145,8 +145,8 @@ const SettingAgent = () => {
         agent={agent}
         state={deleteDialog}
         closeDialog={handlCloseDelete}
-        deleteAgent={(agent) => {
-          DeleteAgent(agent.id);
+        deleteAgent={(agentId) => {
+          DeleteAgent(agentId);
           handlCloseDelete();
         }}
       />
