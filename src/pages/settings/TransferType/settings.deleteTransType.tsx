@@ -7,27 +7,27 @@ import {
   DialogTitle,
 } from "@mui/material";
 
-import { projectGroups } from "../../../types";
+import { transferTypes } from "../../../types";
 
-type ProjGrpDeleteProps = {
-  prjGrp: projectGroups;
+type TransTypeDeleteProps = {
+  trans: transferTypes;
   state: boolean;
   closeDialog: () => void;
-  deletePrjGrp: (prjGrpId: number) => void;
+  deleteTransType: (transId: number) => void;
 };
 
-const ProjGroupDelete = ({
-  prjGrp,
+const TransferTypeDelete = ({
+  trans,
   state,
   closeDialog,
-  deletePrjGrp,
-}: ProjGrpDeleteProps) => {
+  deleteTransType,
+}: TransTypeDeleteProps) => {
   return (
     <Dialog open={state} onClose={closeDialog}>
-      <DialogTitle>Delete Project Group</DialogTitle>
+      <DialogTitle>Delete Transfer Type</DialogTitle>
       <DialogContent>
         <DialogContentText>
-          {`Do you want to delete Project Group [${prjGrp.projGrpDescription}] ?`}
+          {`Do you want to delete Transfer Type [${trans.transTypeDescription}] ?`}
         </DialogContentText>
       </DialogContent>
       <DialogActions>
@@ -37,7 +37,7 @@ const ProjGroupDelete = ({
         <Button
           color="error"
           variant="contained"
-          onClick={() => deletePrjGrp(prjGrp.id)}
+          onClick={() => deleteTransType(trans.id)}
           autoFocus
         >
           Confirm
@@ -47,4 +47,4 @@ const ProjGroupDelete = ({
   );
 };
 
-export default ProjGroupDelete;
+export default TransferTypeDelete;

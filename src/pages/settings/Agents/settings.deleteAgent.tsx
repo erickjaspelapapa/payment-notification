@@ -31,10 +31,15 @@ const AgentDelete = ({
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button color="primary" onClick={closeDialog}>
+        <Button color="primary" variant="contained" onClick={closeDialog}>
           Cancel
         </Button>
-        <Button color="error" onClick={() => deleteAgent(agent.id)} autoFocus>
+        <Button
+          color="error"
+          variant="contained"
+          onClick={() => deleteAgent(agent.id)}
+          autoFocus
+        >
           Confirm
         </Button>
       </DialogActions>
