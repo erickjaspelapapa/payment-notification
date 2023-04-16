@@ -1,12 +1,17 @@
 import { Route, Routes } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "react-query";
 
 import HomeRoutes from "./pages/routes";
 
+const queryClient = new QueryClient();
+
 function App() {
   return (
-    <Routes>
-      <Route path="/*" element={<HomeRoutes />} />
-    </Routes>
+    <QueryClientProvider client={queryClient}>
+      <Routes>
+        <Route path="/*" element={<HomeRoutes />} />
+      </Routes>
+    </QueryClientProvider>
   );
 }
 

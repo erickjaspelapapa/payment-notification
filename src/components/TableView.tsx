@@ -1,11 +1,11 @@
 import { FolderOff } from "@mui/icons-material";
 import { Box, Stack, Typography } from "@mui/material";
-import { grey } from "@mui/material/colors";
+import grey from "@mui/material/colors/grey";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 
 type TableViewProps = {
   columns: GridColDef[];
-  data: any;
+  data?: any;
   loading: boolean;
 };
 
@@ -21,11 +21,12 @@ const NoRowsOverlay: React.FC = () => (
 
 const TableView = ({ columns, data, loading }: TableViewProps) => {
   return (
-    <Box sx={{ height: 600, width: "100%" }}>
+    <Box sx={{ height: 500, width: "100%" }}>
       <DataGrid
-        rows={data}
+        rows={data ?? []}
         columns={columns}
         loading={loading}
+        autoPageSize
         pageSizeOptions={[20, 40, 60]}
         components={{ NoRowsOverlay }}
         initialState={{

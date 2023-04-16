@@ -1,4 +1,4 @@
-import { createTheme } from "@mui/material/styles";
+import { createTheme } from "@mui/material";
 import { red } from "@mui/material/colors";
 
 const theme = createTheme({
@@ -34,7 +34,7 @@ const theme = createTheme({
     },
     text: {
       primary: "#000",
-      secondary: "#fff",
+      secondary: "#000",
     },
   },
 });

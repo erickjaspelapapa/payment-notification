@@ -62,7 +62,7 @@ const NavItem = ({ title, route, icon }: DrawerNavItem) => {
       >
         <ListItemIcon
           sx={{
-            color: theme.palette.text.secondary,
+            color: "#fff",
           }}
         >
           {icon}
@@ -70,7 +70,7 @@ const NavItem = ({ title, route, icon }: DrawerNavItem) => {
         <ListItemText
           primary={title}
           sx={{
-            color: theme.palette.text.secondary,
+            color: "#fff",
           }}
         />
       </ListItemButton>
