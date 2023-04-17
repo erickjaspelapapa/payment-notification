@@ -77,7 +77,7 @@ const ClientDialog = ({
       <DialogTitle>New Client</DialogTitle>
       <DialogContent>
         <Grid container spacing={2}>
-          <Grid item xs={6}>
+          <Grid item xs sx={{ marginRight: 1 }}>
             <Typography gutterBottom variant="h6">
               Client Information
             </Typography>
@@ -159,7 +159,8 @@ const ClientDialog = ({
               <DatePicker sx={{ marginBottom: 1, marginTop: 1 }} />
             </Stack>
           </Grid>
-          <Grid item xs={6}>
+          <Divider orientation="vertical" flexItem></Divider>
+          <Grid item xs>
             <Typography gutterBottom variant="h6">
               Other Information
             </Typography>

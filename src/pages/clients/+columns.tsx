@@ -5,6 +5,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import InfoIcon from "@mui/icons-material/Info";
 import { format } from "date-fns";
 import NumericInput from "material-ui-numeric-input";
+import { useNavigate } from "react-router-dom";
 
 type ColumnEvent = {
   onEdit: (clientId: number) => void;
@@ -12,6 +13,7 @@ type ColumnEvent = {
 };
 
 export const columns = ({ onEdit, onDelete }: ColumnEvent): GridColDef[] => {
+  const navigate = useNavigate();
   return [
     {
       field: "action",
@@ -20,8 +22,10 @@ export const columns = ({ onEdit, onDelete }: ColumnEvent): GridColDef[] => {
       width: 150,
       renderCell: (param) => (
         <Stack direction={"row"}>
-          <IconButton>
-            <InfoIcon color="primary" />
+          <IconButton
+            onClick={() => navigate(`/clientProfile/${param.row.clientId}`)}
+          >
+            <InfoIcon color="info" />
           </IconButton>
           {/* <IconButton onClick={() => onEdit(param.row.id)}>
             <EditIcon color="secondary" />
@@ -60,25 +64,6 @@ export const columns = ({ onEdit, onDelete }: ColumnEvent): GridColDef[] => {
       headerName: "Lot",
     },
     {
-      field: "totalContractPrice",
-      headerName: "Contract Price",
-      align: "right",
-      renderCell: (param) => (
-        // <NumericFormat
-        //   displayType="text"
-        //   value={param.row.totalContractPrice}
-        //   thousandSeparator
-        // />
-        <NumericInput
-          precision={2}
-          decimalChar="."
-          thousandChar=","
-          value={param.row.totalContractPrice}
-          variant="standard"
-        />
-      ),
-    },
-    {
       field: "dateStartMonthlyPay",
       headerName: "First Monthly Pay",
       width: 150,
@@ -97,25 +82,6 @@ export const columns = ({ onEdit, onDelete }: ColumnEvent): GridColDef[] => {
       valueGetter: (param) => param.row.transType.transTypeDescription ?? "-",
     },
     {
-      field: "transferFee",
-      headerName: "Transfer Fee",
-      align: "right",
-      renderCell: (param) => (
-        // <NumericFormat
-        //   displayType="text"
-        //   value={param.row.transferFee}
-        //   thousandSeparator
-        // />
-        <NumericInput
-          precision={2}
-          decimalChar="."
-          thousandChar=","
-          value={param.row.transferFee}
-          variant="standard"
-        />
-      ),
-    },
-    {
       field: "agentId",
       headerName: "Agent",
       width: 250,
@@ -128,6 +94,45 @@ export const columns = ({ onEdit, onDelete }: ColumnEvent): GridColDef[] => {
       headerName: "Project Group",
       width: 250,
       valueGetter: (param) => param.row.projGroup.projGrpDescription ?? "-",
+    },
+    {
+      field: "totalContractPrice",
+      headerName: "Contract Price",
+      align: "right",
+      width: 200,
+      renderCell: (param) => (
+        // <NumericFormat
+        //   displayType="text"
+        //   value={param.row.totalContractPrice}
+        //   thousandSeparator
+        // />
+        <NumericInput
+          precision={2}
+          decimalChar="."
+          thousandChar=","
+          value={param.row.totalContractPrice}
+          variant="outlined"
+        />
+      ),
+    },
+    {
+      field: "transferFee",
+      headerName: "Transfer Fee",
+      align: "right",
+      width: 200,
+      renderCell: (param) => (
+        // <NumericFormat
+        //   displayType="text"
+        //   value={param.row.transferFee}
+        //   thousandSeparator
+        // />
+        <NumericInput
+          precision={2}
+          decimalChar="."
+          thousandChar=","
+          value={param.row.transferFee}
+        />
+      ),
     },
   ];
 };

@@ -81,7 +81,7 @@ const deleteTransType = async (id: number) => {
   return resp;
 };
 
-const getClientsById = async (id: number) => {
+const getClientsById = async (id?: string) => {
   const resp = await axiosInstance.get(`/Client/ClientById?clientId=${id}`);
 
   return resp;
