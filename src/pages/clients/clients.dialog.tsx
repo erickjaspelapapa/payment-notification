@@ -5,7 +5,11 @@ import {
   DialogContent,
   DialogTitle,
   Divider,
+  FormControl,
   Grid,
+  InputLabel,
+  MenuItem,
+  Select,
   Stack,
   TextField,
   Typography,
@@ -14,14 +18,22 @@ import React from "react";
 import NumericInput, { HTMLNumericElement } from "material-ui-numeric-input";
 import { DatePicker } from "@mui/x-date-pickers";
 
-import { clients } from "../../types";
+import { agents, clients, projectGroups, transferTypes } from "../../types";
+import {
+  SETTINGS_AGENT,
+  SETTINGS_PRJGRP,
+  SETTINGS_TRANSTYPE,
+} from "../../utils/const";
+import { useMutation, useQuery } from "react-query";
+import service from "../../services/service";
+import { toast } from "react-toastify";
 
 type ClientDialogProps = {
-  client?: clients;
+  client: clients;
   setClient: (client: clients) => void;
   state: boolean;
   closeDialog: () => void;
-  submit: (client?: clients) => void;
+  submit: (client: clients) => void;
 };
 const ClientDialog = ({
   client,
@@ -33,13 +45,33 @@ const ClientDialog = ({
   const onEventChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
     const name = evt.target.name;
     const value = evt.target.value;
-    if (client) {
-      setClient({
-        ...client,
-        [name]: value,
-      });
-    }
+    setClient({
+      ...client,
+      [name]: value,
+    });
   };
+
+  const { data: agents, refetch: getAgentList } = useQuery({
+    queryKey: SETTINGS_AGENT,
+    queryFn: service.getAgents,
+  });
+
+  const { data: prjGroups, refetch: getProjectList } = useQuery({
+    queryKey: SETTINGS_PRJGRP,
+    queryFn: service.getProjectGroups,
+  });
+
+  const { data: transTypes, refetch: getTransTypeList } = useQuery({
+    queryKey: SETTINGS_TRANSTYPE,
+    queryFn: service.getTransferTypes,
+  });
+
+  React.useEffect(() => {
+    getAgentList();
+    getProjectList();
+    getTransTypeList();
+  }, []);
+
   return (
     <Dialog fullWidth open={state} onClose={closeDialog} maxWidth="md">
       <DialogTitle>New Client</DialogTitle>
@@ -54,7 +86,7 @@ const ClientDialog = ({
               name="clientId"
               variant="outlined"
               label="Client Number"
-              value={client?.clientId}
+              value={client.clientId}
               onChange={onEventChange}
               sx={{ marginBottom: 1, marginTop: 1 }}
             />
@@ -63,7 +95,7 @@ const ClientDialog = ({
               name="clientName"
               variant="outlined"
               label="Client Name"
-              value={client?.clientName}
+              value={client.clientName}
               onChange={onEventChange}
               sx={{ marginBottom: 1, marginTop: 1 }}
             />
@@ -72,49 +104,133 @@ const ClientDialog = ({
               name="clientContactNumber"
               variant="outlined"
               label="Client Contact Number"
-              value={client?.clientContactNumber}
-              onChange={onEventChange}
-              sx={{ marginBottom: 1, marginTop: 1 }}
-            />
-            <TextField
-              fullWidth
-              name="bldgBlock"
-              variant="outlined"
-              label="Building Block"
-              value={client?.bldgBlock}
-              onChange={onEventChange}
-              sx={{ marginBottom: 1, marginTop: 1 }}
-            />
-            <TextField
-              fullWidth
-              name="bldgLot"
-              variant="outlined"
-              label="Building Lot"
-              value={client?.bldgLot}
+              value={client.clientContactNumber}
               onChange={onEventChange}
               sx={{ marginBottom: 1, marginTop: 1 }}
             />
             <Stack direction="row">
               <TextField
-                fullWidth
+                name="bldgBlock"
+                variant="outlined"
+                label="Building Block"
+                value={client.bldgBlock}
+                onChange={onEventChange}
+                sx={{ marginBottom: 1, marginTop: 1, marginRight: 1 }}
+              />
+              <TextField
+                name="bldgLot"
+                variant="outlined"
+                label="Building Lot"
+                value={client.bldgLot}
+                onChange={onEventChange}
+                sx={{ marginBottom: 1, marginTop: 1 }}
+              />
+            </Stack>
+            <Stack direction="row">
+              <TextField
                 name="totalContractPrice"
                 label="Total Contract Price"
-                value={client?.totalContractPrice}
+                value={client.totalContractPrice}
                 inputProps={{ type: "number", pattern: "[0-9]*" }}
                 onChange={onEventChange}
                 variant="outlined"
+                sx={{ marginBottom: 1, marginTop: 1, marginRight: 1 }}
+              />
+              <TextField
+                // name="totalContractPrice"
+                label="Months To Pay"
+                // value={client.}
+                inputProps={{ type: "number", pattern: "[0-9]*", min: 0 }}
+                // onChange={onEventChange}
+                variant="outlined"
                 sx={{ marginBottom: 1, marginTop: 1 }}
               />
-              {/* <DatePicker
-                name="dateStartMonthlyPay"
-                label="Start of Monthly Payment"
-                value=
+            </Stack>
+            <Stack direction="row">
+              <TextField
+                name="transferFee"
+                label="Transfer Fee"
+                value={client.transferFee}
+                inputProps={{ type: "number", pattern: "[0-9]*" }}
                 onChange={onEventChange}
-              /> */}
+                variant="outlined"
+                sx={{ marginBottom: 1, marginTop: 1, marginRight: 1 }}
+              />
+              <DatePicker sx={{ marginBottom: 1, marginTop: 1 }} />
             </Stack>
           </Grid>
           <Grid item xs={6}>
-            <Typography variant="h6"> Others </Typography>
+            <Typography gutterBottom variant="h6">
+              Other Information
+            </Typography>
+            <FormControl fullWidth>
+              <InputLabel>Agents</InputLabel>
+              <Select
+                name="agentId"
+                id="demo-simple-select"
+                value={client.agentId}
+                label="Age"
+                onChange={(evt) => {
+                  setClient({
+                    ...client,
+                    agentId: evt.target.value as number,
+                  });
+                }}
+                sx={{ marginBottom: 1, marginTop: 1 }}
+              >
+                {agents?.data.map((agent) => (
+                  <MenuItem
+                    value={agent.id}
+                  >{`${agent.agentFirstName} ${agent.agentLastName}`}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+
+            <FormControl fullWidth>
+              <InputLabel>Project Group</InputLabel>
+              <Select
+                name="projGrpId"
+                id="demo-simple-select"
+                value={client.projGrpId}
+                label="Age"
+                onChange={(evt) => {
+                  setClient({
+                    ...client,
+                    projGrpId: evt.target.value as number,
+                  });
+                }}
+                sx={{ marginBottom: 1, marginTop: 1 }}
+              >
+                {prjGroups?.data.map((prj) => (
+                  <MenuItem
+                    value={prj.id}
+                  >{`${prj.projGrpDescription}`}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+
+            <FormControl fullWidth>
+              <InputLabel>Transfer Types</InputLabel>
+              <Select
+                name="transTypeId"
+                id="demo-simple-select"
+                value={client.transTypeId}
+                label="Age"
+                onChange={(evt) => {
+                  setClient({
+                    ...client,
+                    transTypeId: evt.target.value as number,
+                  });
+                }}
+                sx={{ marginBottom: 1, marginTop: 1 }}
+              >
+                {transTypes?.data.map((trans) => (
+                  <MenuItem
+                    value={trans.id}
+                  >{`${trans.transTypeDescription}`}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
           </Grid>
         </Grid>
       </DialogContent>

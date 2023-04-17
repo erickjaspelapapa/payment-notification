@@ -32,9 +32,9 @@ export type clients = {
   transTypeId: number;
   agentId: number;
   projGrpId: number;
-  agent: agents;
-  transType: transferTypes;
-  projGroup: projectGroups;
+  agent?: agents;
+  transType?: transferTypes;
+  projGroup?: projectGroups;
   id: number;
   created_dt: Date;
   updated_dt: Date;

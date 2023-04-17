@@ -2,7 +2,7 @@ import { agents, clients, projectGroups, transferTypes } from "../types";
 import axiosInstance from "./axios-instance";
 
 const getAgents = async () => {
-  const resp = await axiosInstance.get<agents>("/Agent/AgentList");
+  const resp = await axiosInstance.get<agents[]>("/Agent/AgentList");
 
   return resp;
 };
@@ -26,7 +26,7 @@ const deleteAgents = async (id: number) => {
 };
 
 const getProjectGroups = async () => {
-  const resp = await axiosInstance.get<projectGroups>(
+  const resp = await axiosInstance.get<projectGroups[]>(
     "/ProjGroup/PrjGroupList"
   );
 
@@ -54,7 +54,7 @@ const deleteProjectGroups = async (id: number) => {
 };
 
 const getTransferTypes = async () => {
-  const resp = await axiosInstance.get<transferTypes>(
+  const resp = await axiosInstance.get<transferTypes[]>(
     "/TransType/TransTypeList"
   );
 
@@ -88,7 +88,7 @@ const getClientsById = async (id: number) => {
 };
 
 const getClients = async () => {
-  const resp = await axiosInstance.get("/Client/ClientList");
+  const resp = await axiosInstance.get<clients[]>("/Client/ClientList");
 
   return resp;
 };

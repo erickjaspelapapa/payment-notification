@@ -22,9 +22,26 @@ import ClientDialog from "./clients.dialog";
 import { clients } from "../../types";
 import { toast } from "react-toastify";
 
+const defaultClient: clients = {
+  clientId: "",
+  clientName: "",
+  clientContactNumber: "",
+  bldgBlock: "",
+  bldgLot: "",
+  totalContractPrice: 0,
+  dateStartMonthlyPay: new Date(),
+  transferFee: 0,
+  transTypeId: 0,
+  agentId: 0,
+  projGrpId: 0,
+  id: 0,
+  created_dt: new Date(),
+  updated_dt: new Date(),
+};
+
 const ClientList = () => {
   const [loading, setLoading] = React.useState<boolean>(false);
-  const [client, setClient] = React.useState<clients>();
+  const [client, setClient] = React.useState<clients>(defaultClient);
   const [clientDialog, setClientDialog] = React.useState<boolean>(false);
 
   const { data, refetch: getList } = useQuery({
@@ -36,6 +53,7 @@ const ClientList = () => {
     service.addClient,
     {
       onSuccess: (data) => {
+        getList();
         toast.success("Client Added Successfully!");
       },
       onError: (data) => {
@@ -53,6 +71,7 @@ const ClientList = () => {
   };
 
   const handleCloseClientDialog = () => {
+    setClient(defaultClient);
     setClientDialog(false);
   };
 
@@ -96,7 +115,8 @@ const ClientList = () => {
           state={clientDialog}
           closeDialog={handleCloseClientDialog}
           submit={(client) => {
-            if (client) InsertClient(client);
+            InsertClient(client);
+            handleCloseClientDialog();
           }}
         />
       </CardContent>
