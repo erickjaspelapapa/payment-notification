@@ -3,8 +3,8 @@ import { IconButton, Stack } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import InfoIcon from "@mui/icons-material/Info";
-import { NumericFormat } from "react-number-format";
 import { format } from "date-fns";
+import NumericInput from "material-ui-numeric-input";
 
 type ColumnEvent = {
   onEdit: (clientId: number) => void;
@@ -21,11 +21,11 @@ export const columns = ({ onEdit, onDelete }: ColumnEvent): GridColDef[] => {
       renderCell: (param) => (
         <Stack direction={"row"}>
           <IconButton>
-            <InfoIcon color="success" />
+            <InfoIcon color="primary" />
           </IconButton>
-          <IconButton onClick={() => onEdit(param.row.id)}>
+          {/* <IconButton onClick={() => onEdit(param.row.id)}>
             <EditIcon color="secondary" />
-          </IconButton>
+          </IconButton> */}
           <IconButton onClick={() => onDelete(param.row.id)}>
             <DeleteIcon color="error" />
           </IconButton>
@@ -64,10 +64,17 @@ export const columns = ({ onEdit, onDelete }: ColumnEvent): GridColDef[] => {
       headerName: "Contract Price",
       align: "right",
       renderCell: (param) => (
-        <NumericFormat
-          displayType="text"
+        // <NumericFormat
+        //   displayType="text"
+        //   value={param.row.totalContractPrice}
+        //   thousandSeparator
+        // />
+        <NumericInput
+          precision={2}
+          decimalChar="."
+          thousandChar=","
           value={param.row.totalContractPrice}
-          thousandSeparator
+          variant="standard"
         />
       ),
     },
@@ -94,10 +101,17 @@ export const columns = ({ onEdit, onDelete }: ColumnEvent): GridColDef[] => {
       headerName: "Transfer Fee",
       align: "right",
       renderCell: (param) => (
-        <NumericFormat
-          displayType="text"
+        // <NumericFormat
+        //   displayType="text"
+        //   value={param.row.transferFee}
+        //   thousandSeparator
+        // />
+        <NumericInput
+          precision={2}
+          decimalChar="."
+          thousandChar=","
           value={param.row.transferFee}
-          thousandSeparator
+          variant="standard"
         />
       ),
     },

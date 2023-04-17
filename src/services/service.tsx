@@ -1,4 +1,4 @@
-import { agents, projectGroups, transferTypes } from "../types";
+import { agents, clients, projectGroups, transferTypes } from "../types";
 import axiosInstance from "./axios-instance";
 
 const getAgents = async () => {
@@ -81,8 +81,20 @@ const deleteTransType = async (id: number) => {
   return resp;
 };
 
+const getClientsById = async (id: number) => {
+  const resp = await axiosInstance.get(`/Client/ClientById?clientId=${id}`);
+
+  return resp;
+};
+
 const getClients = async () => {
   const resp = await axiosInstance.get("/Client/ClientList");
+
+  return resp;
+};
+
+const addClient = async (payload: clients) => {
+  const resp = await axiosInstance.post("/Client/InsertClient", payload);
 
   return resp;
 };
@@ -101,4 +113,6 @@ export default {
   updateTransType,
   deleteTransType,
   getClients,
+  addClient,
+  getClientsById,
 };

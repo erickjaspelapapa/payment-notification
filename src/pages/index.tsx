@@ -98,7 +98,7 @@ const Home = () => {
           "& .MuiDrawer-paper": {
             width: drawerWidth,
             boxSizing: "border-box",
-            background: "#303030",
+            background: "#1E5631",
             color: "#FFF",
           },
         }}
@@ -109,8 +109,12 @@ const Home = () => {
             sx={{ paddingTop: 1, paddingBottom: 1 }}
             spacing={1}
           >
-            <Image src={"./vite.svg"} width={65} style={{ margin: 0 }} />
-            <Typography fontSize={18}>Payment Notification</Typography>
+            <Image
+              src={"./logo.png"}
+              width={65}
+              style={{ margin: 0, border: "solid 1px #fff" }}
+            />
+            <Typography fontSize={18}>Prime Empire88</Typography>
           </Stack>
         </Toolbar>
         <Divider />

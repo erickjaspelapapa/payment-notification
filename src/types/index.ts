@@ -26,7 +26,7 @@ export type clients = {
   clientContactNumber: string;
   bldgBlock: string;
   bldgLot: string;
-  totalContractPrice: number;
+  totalContractPrice: number | string | undefined;
   dateStartMonthlyPay: Date;
   transferFee: number;
   transTypeId: number;
