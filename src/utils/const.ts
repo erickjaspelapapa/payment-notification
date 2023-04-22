@@ -1,5 +1,6 @@
 export const CLIENT_LIST = "CLIENT_LIST";
 export const CLIENT_PROFILE = "CLIENT_PROFILE";
+export const PAYMENT_LIST = "PAYMENT_LIST";
 
 export const SETTINGS_AGENT = "SETTINGS_AGENT";
 export const SETTINGS_PRJGRP = "SETTINGS_PRJGRP";

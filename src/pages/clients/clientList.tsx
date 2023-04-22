@@ -37,6 +37,7 @@ const defaultClient: clients = {
   id: 0,
   created_dt: new Date(),
   updated_dt: new Date(),
+  monthsToPay: 0,
 };
 
 const ClientList = () => {

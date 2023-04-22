@@ -33,6 +33,8 @@ const TableView = ({ columns, data, loading }: TableViewProps) => {
           columns: {
             columnVisibilityModel: {
               id: false,
+              clientId: false,
+              transId: false,
             },
           },
         }}

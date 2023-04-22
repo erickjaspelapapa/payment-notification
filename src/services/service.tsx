@@ -1,4 +1,11 @@
-import { agents, clients, projectGroups, transferTypes } from "../types";
+import {
+  agents,
+  clients,
+  payment,
+  paymentPayload,
+  projectGroups,
+  transferTypes,
+} from "../types";
 import axiosInstance from "./axios-instance";
 
 const getAgents = async () => {
@@ -99,6 +106,26 @@ const addClient = async (payload: clients) => {
   return resp;
 };
 
+const addTransaction = async (payload: paymentPayload) => {
+  const resp = await axiosInstance.post("/Payment/insertTransaction", payload);
+
+  return resp;
+};
+
+const updateTransaction = async (payload: paymentPayload) => {
+  const resp = await axiosInstance.post("/Payment/updateTransaction", payload);
+
+  return resp;
+};
+
+const getClientTransaction = async (clientId?: string) => {
+  const resp = await axiosInstance.get<payment[]>(
+    `/Payment/getTransactionList?clientId=${clientId}`
+  );
+
+  return resp;
+};
+
 export default {
   getAgents,
   addAgents,
@@ -115,4 +142,7 @@ export default {
   getClients,
   addClient,
   getClientsById,
+  addTransaction,
+  updateTransaction,
+  getClientTransaction,
 };

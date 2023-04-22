@@ -15,18 +15,16 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
-import NumericInput, { HTMLNumericElement } from "material-ui-numeric-input";
+import { useQuery } from "react-query";
 import { DatePicker } from "@mui/x-date-pickers";
 
-import { agents, clients, projectGroups, transferTypes } from "../../types";
+import { clients } from "../../types";
 import {
   SETTINGS_AGENT,
   SETTINGS_PRJGRP,
   SETTINGS_TRANSTYPE,
 } from "../../utils/const";
-import { useMutation, useQuery } from "react-query";
 import service from "../../services/service";
-import { toast } from "react-toastify";
 
 type ClientDialogProps = {
   client: clients;
@@ -128,6 +126,7 @@ const ClientDialog = ({
             </Stack>
             <Stack direction="row">
               <TextField
+                fullWidth
                 name="totalContractPrice"
                 label="Total Contract Price"
                 value={client.totalContractPrice}
@@ -136,15 +135,27 @@ const ClientDialog = ({
                 variant="outlined"
                 sx={{ marginBottom: 1, marginTop: 1, marginRight: 1 }}
               />
-              <TextField
-                // name="totalContractPrice"
-                label="Months To Pay"
-                // value={client.}
-                inputProps={{ type: "number", pattern: "[0-9]*", min: 0 }}
-                // onChange={onEventChange}
-                variant="outlined"
-                sx={{ marginBottom: 1, marginTop: 1 }}
-              />
+              <FormControl fullWidth>
+                <InputLabel>Months To Pay</InputLabel>
+                <Select
+                  name="monthsToPay"
+                  value={client.monthsToPay}
+                  label="Age"
+                  onChange={(evt) => {
+                    setClient({
+                      ...client,
+                      monthsToPay: evt.target.value as number,
+                    });
+                  }}
+                  sx={{ marginBottom: 1, marginTop: 1 }}
+                >
+                  <MenuItem value={12}>12</MenuItem>
+                  <MenuItem value={24}>24</MenuItem>
+                  <MenuItem value={36}>36</MenuItem>
+                  <MenuItem value={48}>48</MenuItem>
+                  <MenuItem value={60}>60</MenuItem>
+                </Select>
+              </FormControl>
             </Stack>
             <Stack direction="row">
               <TextField
@@ -156,7 +167,17 @@ const ClientDialog = ({
                 variant="outlined"
                 sx={{ marginBottom: 1, marginTop: 1, marginRight: 1 }}
               />
-              <DatePicker sx={{ marginBottom: 1, marginTop: 1 }} />
+              <DatePicker
+                value={client.dateStartMonthlyPay}
+                label="First Monthly Pay"
+                sx={{ marginBottom: 1, marginTop: 1 }}
+                onChange={(evt) => {
+                  setClient({
+                    ...client,
+                    dateStartMonthlyPay: evt as Date,
+                  });
+                }}
+              />
             </Stack>
           </Grid>
           <Divider orientation="vertical" flexItem></Divider>
@@ -181,6 +202,7 @@ const ClientDialog = ({
               >
                 {agents?.data.map((agent) => (
                   <MenuItem
+                    key={agent.id}
                     value={agent.id}
                   >{`${agent.agentFirstName} ${agent.agentLastName}`}</MenuItem>
                 ))}
@@ -204,6 +226,7 @@ const ClientDialog = ({
               >
                 {prjGroups?.data.map((prj) => (
                   <MenuItem
+                    key={prj.id}
                     value={prj.id}
                   >{`${prj.projGrpDescription}`}</MenuItem>
                 ))}
@@ -227,6 +250,7 @@ const ClientDialog = ({
               >
                 {transTypes?.data.map((trans) => (
                   <MenuItem
+                    key={trans.id}
                     value={trans.id}
                   >{`${trans.transTypeDescription}`}</MenuItem>
                 ))}

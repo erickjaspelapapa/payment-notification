@@ -66,7 +66,7 @@ export const columns = ({ onEdit, onDelete }: ColumnEvent): GridColDef[] => {
     {
       field: "dateStartMonthlyPay",
       headerName: "First Monthly Pay",
-      width: 150,
+      width: 200,
       valueFormatter: (param) => {
         if (param.value === null) {
           return "-";
@@ -74,6 +74,12 @@ export const columns = ({ onEdit, onDelete }: ColumnEvent): GridColDef[] => {
         const newDate = new Date(param.value);
         return format(newDate, "MMMM dd, yyyy");
       },
+    },
+    {
+      field: "monthsToPay",
+      headerName: "Months To Pay",
+      width: 125,
+      valueGetter: (param) => param.row.monthsToPay ?? "-",
     },
     {
       field: "transTypeId",
@@ -111,6 +117,26 @@ export const columns = ({ onEdit, onDelete }: ColumnEvent): GridColDef[] => {
           decimalChar="."
           thousandChar=","
           value={param.row.totalContractPrice}
+          variant="outlined"
+        />
+      ),
+    },
+    {
+      field: "",
+      headerName: "Projected Monthly",
+      align: "right",
+      width: 200,
+      renderCell: (param) => (
+        // <NumericFormat
+        //   displayType="text"
+        //   value={param.row.totalContractPrice}
+        //   thousandSeparator
+        // />
+        <NumericInput
+          precision={2}
+          decimalChar="."
+          thousandChar=","
+          value={param.row.totalContractPrice / param.row.monthsToPay}
           variant="outlined"
         />
       ),
