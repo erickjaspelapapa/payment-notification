@@ -55,6 +55,8 @@ const Profile = () => {
   const navigate = useNavigate();
   const [value, setValue] = React.useState("1");
   const [payment, setPayment] = React.useState<paymentPayload>();
+  const [isNew, setIsNew] = React.useState<boolean>(false);
+
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };
@@ -66,8 +68,26 @@ const Profile = () => {
 
   const { data: paymentList, refetch: getPaymentList } = useQuery({
     queryKey: [PAYMENT_LIST, id],
-    queryFn: () => service.getClientTransaction(id),
+    queryFn: () => service.getTransactionList(id),
   });
+
+  // const { data: transaction, refetch: getClientTransaction } = useQuery({
+  //   queryKey: [PAYMENT_TRANSACTION, transId],
+  //   queryFn: () => (transId != 0 ? service.getClientTransaction(transId) : {}),
+  // });
+
+  const { mutate: getClientTransaction, isLoading: transLoading } = useMutation(
+    service.getClientTransaction,
+    {
+      onSuccess: (data) => {
+        console.log(data.data);
+        setPayment(data.data);
+      },
+      onError: (data) => {
+        console.log(data);
+      },
+    }
+  );
 
   React.useEffect(() => {
     getProfile();
@@ -86,8 +106,23 @@ const Profile = () => {
       },
     }
   );
+  const { mutate: UpdateTransaction, isLoading: updateLoading } = useMutation(
+    service.updateTransaction,
+    {
+      onSuccess: (data) => {
+        getPaymentList();
+        toast.success("Transaction Successfully Updated");
+      },
+      onError: (data) => {
+        toast.error("Something Went Wrong!");
+      },
+    }
+  );
 
-  const handleEditTran = () => {};
+  const handleEditTran = (id: number) => {
+    setIsNew(false);
+    getClientTransaction(id);
+  };
   const handleDeleteTran = () => {};
   return (
     <Box>
@@ -130,6 +165,7 @@ const Profile = () => {
                     <Box>
                       <Button
                         onClick={() => {
+                          setIsNew(true);
                           setPayment({
                             ...defaultPayment,
                             clientId: client?.data.id,
@@ -155,6 +191,7 @@ const Profile = () => {
                   )}
                   {!!payment && (
                     <CreateTransaction
+                      isNew={isNew}
                       payment={payment}
                       setPayment={(pay) => {
                         if (pay) {
@@ -165,7 +202,11 @@ const Profile = () => {
                         }
                       }}
                       submitTransaction={(payment) => {
-                        AddTransaction(payment);
+                        if (isNew) {
+                          AddTransaction(payment);
+                        } else {
+                          UpdateTransaction(payment);
+                        }
                       }}
                     />
                   )}

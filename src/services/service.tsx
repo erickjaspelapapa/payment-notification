@@ -113,14 +113,22 @@ const addTransaction = async (payload: paymentPayload) => {
 };
 
 const updateTransaction = async (payload: paymentPayload) => {
-  const resp = await axiosInstance.post("/Payment/updateTransaction", payload);
+  const resp = await axiosInstance.put("/Payment/updateTransaction", payload);
 
   return resp;
 };
 
-const getClientTransaction = async (clientId?: string) => {
+const getTransactionList = async (clientId?: string) => {
   const resp = await axiosInstance.get<payment[]>(
     `/Payment/getTransactionList?clientId=${clientId}`
+  );
+
+  return resp;
+};
+
+const getClientTransaction = async (transId?: number) => {
+  const resp = await axiosInstance.get<paymentPayload>(
+    `/Payment/getTransaction?transId=${transId}`
   );
 
   return resp;
@@ -144,5 +152,6 @@ export default {
   getClientsById,
   addTransaction,
   updateTransaction,
+  getTransactionList,
   getClientTransaction,
 };

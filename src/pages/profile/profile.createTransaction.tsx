@@ -13,12 +13,13 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { DateTimePicker } from "@mui/x-date-pickers";
+import { DatePicker } from "@mui/x-date-pickers";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
 import TaskIcon from "@mui/icons-material/Task";
 
 import { paymentLine, paymentPayload, paymentTypes } from "../../types";
+import { format, parse } from "date-fns";
 
 const defaultPaymentLine: paymentLine = {
   paymentType: "",
@@ -54,7 +55,7 @@ const LineContainer = ({ line, setLine, removeLine }: LineContainerProps) => {
           flex: 1,
         }}
       >
-        {line.paymentType}
+        {paymentTypes[line.paymentType]}
       </Typography>
       <TextField
         name="amount"
@@ -88,12 +89,14 @@ type CreateTransactionProps = {
   payment: paymentPayload;
   setPayment: (payment?: paymentPayload) => void;
   submitTransaction: (payment: paymentPayload) => void;
+  isNew: boolean;
 };
 
 const CreateTransaction = ({
   payment,
   setPayment,
   submitTransaction,
+  isNew,
 }: CreateTransactionProps) => {
   const [paymentLine, setPaymentLine] =
     React.useState<paymentLine>(defaultPaymentLine);
@@ -211,8 +214,8 @@ const CreateTransaction = ({
         </Card>
       </Grid>
       <Grid item xs>
-        <DateTimePicker
-          value={payment?.paymentDate}
+        <DatePicker
+          value={new Date(payment?.paymentDate ?? new Date())}
           label="Payment Date"
           onChange={(evt) => {
             setPayment({ ...payment, paymentDate: evt as Date });
@@ -246,13 +249,13 @@ const CreateTransaction = ({
           <Button
             startIcon={<TaskIcon />}
             variant="contained"
-            color="success"
+            color={isNew ? "success" : "info"}
             onClick={() => {
               submitTransaction(payment);
               handleClearPayment();
             }}
           >
-            Submit
+            {isNew ? "Submit" : "Update"}
           </Button>
         </Stack>
       </Grid>

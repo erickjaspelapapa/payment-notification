@@ -18,10 +18,10 @@ export const columns = ({ onEdit, onDelete }: ColumnEvent): GridColDef[] => {
       headerName: "Action",
       renderCell: (param) => (
         <Stack direction={"row"}>
-          <IconButton onClick={() => onEdit(param.row.id)}>
+          <IconButton onClick={() => onEdit(param.row.transId)}>
             <EditIcon color="secondary" />
           </IconButton>
-          <IconButton onClick={() => onDelete(param.row.id)}>
+          <IconButton onClick={() => onDelete(param.row.transId)}>
             <DeleteIcon color="error" />
           </IconButton>
         </Stack>
