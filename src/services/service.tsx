@@ -3,7 +3,9 @@ import {
   clients,
   payment,
   paymentPayload,
+  paymentRecords,
   projectGroups,
+  projectedPayment,
   transferTypes,
 } from "../types";
 import axiosInstance from "./axios-instance";
@@ -134,6 +136,22 @@ const getClientTransaction = async (transId?: number) => {
   return resp;
 };
 
+const getPaymentRecords = async () => {
+  const resp = await axiosInstance.get<paymentRecords[]>(
+    "/Payment/getPaymentRecords"
+  );
+
+  return resp;
+};
+
+const getProjectedPayments = async (id: string) => {
+  const resp = await axiosInstance.get<projectedPayment[]>(
+    `Payment/getProjected?id=${id}`
+  );
+
+  return resp;
+};
+
 export default {
   getAgents,
   addAgents,
@@ -154,4 +172,6 @@ export default {
   updateTransaction,
   getTransactionList,
   getClientTransaction,
+  getPaymentRecords,
+  getProjectedPayments,
 };

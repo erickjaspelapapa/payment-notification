@@ -6,6 +6,7 @@ import Dashboard from "./dashboard";
 import ImportClient from "./imports";
 import Settings from "./settings";
 import Profile from "./profile";
+import PaymentRecords from "./records";
 
 const HomeRoutes = () => {
   return (
@@ -14,6 +15,7 @@ const HomeRoutes = () => {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/clients" element={<ClientList />} />
         <Route path="/clientProfile/:id" element={<Profile />} />
+        <Route path="/records" element={<PaymentRecords />} />
         <Route path="/imports" element={<ImportClient />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/" element={<Navigate to={"/dashboard"} />} />

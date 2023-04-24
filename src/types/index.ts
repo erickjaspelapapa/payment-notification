@@ -91,3 +91,35 @@ export type paymentLine = {
   paymentType: string;
   amount: number;
 };
+
+export type paymentRecords = {
+  id: number;
+  clientId: string;
+  client: string;
+  latestPayment: Date;
+  firstMonthlyPay: Date;
+  firstMonthlyPayFormatted: string;
+  totalContractPrice: number;
+  projectedMonPaymentAmt: number;
+  monthsToPay: number;
+  agent: string;
+  downpayment: number;
+  reservation: number;
+  monthlyPayment: number;
+  agentCommission: number;
+  notarialFee: number;
+  promo: number;
+  transferFee: number;
+  created_dt: Date;
+  updated_dt: Date;
+};
+
+export type projectedPayment = {
+  clientId: string;
+  monthPay: string;
+  yearPay: number;
+  amount: number;
+  id: number;
+  created_dt: Date;
+  updated_dt: Date;
+};
