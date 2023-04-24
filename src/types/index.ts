@@ -116,7 +116,7 @@ export type paymentRecords = {
 
 export type projectedPayment = {
   clientId: string;
-  monthPay: string;
+  monthPay: number;
   yearPay: number;
   amount: number;
   id: number;

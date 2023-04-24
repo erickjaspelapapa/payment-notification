@@ -96,7 +96,10 @@ const PaymentRecords = () => {
                               {pay.yearPay}
                             </TableCell>
                             <TableCell>
-                              {format(parseInt(pay.monthPay), "MMM")}
+                              {format(
+                                new Date(pay.yearPay, pay.monthPay - 1, 1),
+                                "MMMM"
+                              )}
                             </TableCell>
                             <TableCell align="right" scope="row">
                               {pay.amount}
