@@ -1,8 +1,10 @@
-import { IconButton, Stack, Typography } from "@mui/material";
+import { Box, IconButton, Stack, Typography } from "@mui/material";
 import { GridColDef } from "@mui/x-data-grid";
 import NumericInput from "material-ui-numeric-input";
 import InfoIcon from "@mui/icons-material/Info";
 import { format } from "date-fns";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import CancelIcon from "@mui/icons-material/Cancel";
 
 type ColumnEvent = {
   onShowProject: (id: string) => void;
@@ -32,6 +34,19 @@ export const columns = ({ onShowProject }: ColumnEvent): GridColDef[] => {
       field: "client",
       headerName: "Client",
       width: 250,
+    },
+    {
+      field: "forProcessing",
+      headerName: "",
+      type: "Boolean",
+      width: 50,
+      renderCell: (param) => {
+        return param.row.forProcessing ? (
+          <CheckCircleIcon color="success" />
+        ) : (
+          <CancelIcon color="error" />
+        );
+      },
     },
     {
       field: "latestPayment",
@@ -64,7 +79,6 @@ export const columns = ({ onShowProject }: ColumnEvent): GridColDef[] => {
     {
       field: "totalContractPrice",
       headerName: "Contract Price",
-      align: "right",
       width: 200,
       renderCell: (param) => (
         // <NumericFormat
@@ -78,13 +92,15 @@ export const columns = ({ onShowProject }: ColumnEvent): GridColDef[] => {
           thousandChar=","
           value={param.row.totalContractPrice ?? 0}
           variant="outlined"
+          sx={{
+            textAlignLast: "right",
+          }}
         />
       ),
     },
     {
       field: "projectedMonPaymentAmt",
       headerName: "Monthly Payment",
-      align: "right",
       width: 200,
       renderCell: (param) => (
         // <NumericFormat
@@ -98,6 +114,9 @@ export const columns = ({ onShowProject }: ColumnEvent): GridColDef[] => {
           thousandChar=","
           value={param.row.projectedMonPaymentAmt ?? 0}
           variant="outlined"
+          sx={{
+            textAlignLast: "right",
+          }}
         />
       ),
     },
@@ -105,15 +124,17 @@ export const columns = ({ onShowProject }: ColumnEvent): GridColDef[] => {
       field: "monthsToPay",
       headerName: "Months To Pay",
       width: 150,
-      renderCell: (param) => (
-        <Stack direction="row">
-          <Typography color="red">{param.row.monthsToPay}</Typography>
-          <Typography
-            color="green"
-            sx={{ marginLeft: 1 }}
-          >{`[ ${param.row.monthsToPay} ]`}</Typography>
-        </Stack>
-      ),
+      renderCell: (param) => {
+        return (
+          <Stack direction="row">
+            <Typography color="red">{param.row.monthsToPay}</Typography>
+            <Typography
+              color="green"
+              sx={{ marginLeft: 1, fontWeight: 600 }}
+            >{`[ ${param.row.monthsPayLeft} ]`}</Typography>
+          </Stack>
+        );
+      },
     },
     {
       field: "agent",
@@ -124,31 +145,34 @@ export const columns = ({ onShowProject }: ColumnEvent): GridColDef[] => {
     {
       field: "agentCommission",
       headerName: "Agent's Commission",
-      align: "right",
-      width: 200,
-      renderCell: (param) => (
-        // <NumericFormat
-        //   displayType="text"
-        //   value={param.row.totalContractPrice}
-        //   thousandSeparator
-        // />
-        <Stack direction="row">
+      width: 150,
+      renderCell: (param) => {
+        return (
           <NumericInput
             precision={2}
             decimalChar="."
             thousandChar=","
             value={param.row.agentCommission ?? 0}
             variant="outlined"
+            sx={{
+              textAlignLast: "right",
+            }}
           />
-          {/* <Typography>{`[${18}%]`}</Typography> */}
-        </Stack>
+        );
+      },
+    },
+    {
+      field: "agentCommsPerc",
+      headerName: "",
+      width: 75,
+      renderCell: (param) => (
+        <Typography>{`[${param.row.agentCommsPerc}%]`}</Typography>
       ),
     },
     {
       field: "transferFee",
       headerName: "Transfer Fee",
-      align: "right",
-      width: 200,
+      width: 150,
       renderCell: (param) => (
         <NumericInput
           precision={2}
@@ -156,14 +180,16 @@ export const columns = ({ onShowProject }: ColumnEvent): GridColDef[] => {
           thousandChar=","
           value={param.row.transferFee ?? 0}
           variant="outlined"
+          sx={{
+            textAlignLast: "right",
+          }}
         />
       ),
     },
     {
       field: "notarialFee",
       headerName: "Notarial Fee",
-      align: "right",
-      width: 200,
+      width: 150,
       renderCell: (param) => (
         <NumericInput
           precision={2}
@@ -171,32 +197,41 @@ export const columns = ({ onShowProject }: ColumnEvent): GridColDef[] => {
           thousandChar=","
           value={param.row.notarialFee ?? 0}
           variant="outlined"
+          sx={{
+            textAlignLast: "right",
+          }}
         />
       ),
     },
     {
       field: "downpayment",
       headerName: "Downpayment",
-      align: "right",
-      width: 200,
+      width: 150,
       renderCell: (param) => (
-        <Stack>
-          <NumericInput
-            precision={2}
-            decimalChar="."
-            thousandChar=","
-            value={param.row.downpayment ?? 0}
-            variant="outlined"
-          />
-          {/* <Typography>{`[${18}%]`}</Typography> */}
-        </Stack>
+        <NumericInput
+          precision={2}
+          decimalChar="."
+          thousandChar=","
+          value={param.row.downpayment ?? 0}
+          variant="outlined"
+          sx={{
+            textAlignLast: "right",
+          }}
+        />
+      ),
+    },
+    {
+      field: "downpaymentPerc",
+      headerName: "",
+      width: 75,
+      renderCell: (param) => (
+        <Typography>{`[${param.row.downpaymentPerc}%]`}</Typography>
       ),
     },
     {
       field: "reservation",
       headerName: "Reservation",
-      align: "right",
-      width: 200,
+      width: 150,
       renderCell: (param) => (
         <NumericInput
           precision={2}
@@ -204,14 +239,16 @@ export const columns = ({ onShowProject }: ColumnEvent): GridColDef[] => {
           thousandChar=","
           value={param.row.reservation ?? 0}
           variant="outlined"
+          sx={{
+            textAlignLast: "right",
+          }}
         />
       ),
     },
     {
       field: "promo",
       headerName: "Promo",
-      align: "right",
-      width: 200,
+      width: 150,
       renderCell: (param) => (
         <NumericInput
           precision={2}
@@ -219,14 +256,16 @@ export const columns = ({ onShowProject }: ColumnEvent): GridColDef[] => {
           thousandChar=","
           value={param.row.promo ?? 0}
           variant="outlined"
+          sx={{
+            textAlignLast: "right",
+          }}
         />
       ),
     },
     {
       field: "monthlyPayment",
       headerName: "Montly Payment",
-      align: "right",
-      width: 200,
+      width: 150,
       renderCell: (param) => (
         <NumericInput
           precision={2}
@@ -234,26 +273,62 @@ export const columns = ({ onShowProject }: ColumnEvent): GridColDef[] => {
           thousandChar=","
           value={param.row.monthlyPayment ?? 0}
           variant="outlined"
+          sx={{
+            textAlignLast: "right",
+          }}
         />
       ),
     },
     {
       field: "totalBalance",
       headerName: "Total Balance",
-      align: "right",
-      width: 200,
+      width: 150,
+      renderCell: (param) => (
+        <NumericInput
+          precision={2}
+          decimalChar="."
+          thousandChar=","
+          value={param.row.totalBalance ?? 0}
+          variant="outlined"
+          sx={{
+            textAlignLast: "right",
+          }}
+        />
+      ),
     },
     {
       field: "totalPaid",
       headerName: "Total Paid",
-      align: "right",
-      width: 200,
+      width: 150,
+      renderCell: (param) => (
+        <NumericInput
+          precision={2}
+          decimalChar="."
+          thousandChar=","
+          value={param.row.totalPaid ?? 0}
+          variant="outlined"
+          sx={{
+            textAlignLast: "right",
+          }}
+        />
+      ),
     },
     {
-      field: "trasnferFeePaid   ",
+      field: "trasnferFeePaid",
       headerName: "Transfer Fee Paid",
-      align: "right",
-      width: 200,
+      width: 150,
+      renderCell: (param) => (
+        <NumericInput
+          precision={2}
+          decimalChar="."
+          thousandChar=","
+          value={param.row.trasnferFeePaid ?? 0}
+          variant="outlined"
+          sx={{
+            textAlignLast: "right",
+          }}
+        />
+      ),
     },
   ];
 };

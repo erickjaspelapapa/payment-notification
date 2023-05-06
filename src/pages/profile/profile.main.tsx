@@ -14,7 +14,10 @@ const ValueWithLabel = ({ label, value }: ValueWithLabel) => {
     <Box sx={{ width: "100%" }}>
       <Stack direction="row">
         <Typography sx={{ fontSize: 14, flex: 1 }}>{label}</Typography>
-        <Typography sx={{ fontWeight: "bold", fontSize: 14, flex: 1 }}>
+        <Typography
+          gutterBottom
+          sx={{ fontWeight: "bold", fontSize: 14, flex: 1 }}
+        >
           {value}
         </Typography>
       </Stack>
@@ -27,7 +30,10 @@ type ClientProfileProps = { client?: clients };
 const ClientProfile = ({ client }: ClientProfileProps) => {
   return (
     <Box>
-      <Typography sx={{ fontSize: 16, paddingTop: 2, fontWeight: 600 }}>
+      <Typography
+        gutterBottom
+        sx={{ fontSize: 16, paddingTop: 2, fontWeight: 600 }}
+      >
         Client Information
       </Typography>
       <Box sx={{ paddingLeft: 1, marginBottom: 2 }}>
@@ -53,7 +59,7 @@ const ClientProfile = ({ client }: ClientProfileProps) => {
           )}
         />
       </Box>
-      <Typography sx={{ fontSize: 16, fontWeight: 600 }}>
+      <Typography gutterBottom sx={{ fontSize: 16, fontWeight: 600 }}>
         Other Information
       </Typography>
       <Box sx={{ paddingLeft: 2 }}>

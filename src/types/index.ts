@@ -94,6 +94,7 @@ export type paymentLine = {
 
 export type paymentRecords = {
   id: number;
+  forProcessing: boolean;
   clientId: string;
   client: string;
   latestPayment: Date;
@@ -102,14 +103,20 @@ export type paymentRecords = {
   totalContractPrice: number;
   projectedMonPaymentAmt: number;
   monthsToPay: number;
+  monthsPayLeft: number;
   agent: string;
   downpayment: number;
+  downpaymentPerc: number;
   reservation: number;
   monthlyPayment: number;
   agentCommission: number;
+  agentCommsPerc: number;
   notarialFee: number;
   promo: number;
   transferFee: number;
+  totalBalance: number;
+  totalPaid: number;
+  transferFeePaid: number;
   created_dt: Date;
   updated_dt: Date;
 };
