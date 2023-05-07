@@ -18,6 +18,7 @@ import TabPanel from "@mui/lab/TabPanel";
 import SettingAgent from "./Agents/settings.agent";
 import SettingPrjGrp from "./ProjectGroup/settings.prjgrp";
 import SettingTransType from "./TransferType/settings.transtype";
+import SettingCategory from "./Category/settings.category";
 
 const StyledTab = styled(Tab)(() => ({
   color: "#6a6a6a",
@@ -51,17 +52,21 @@ const Settings = () => {
             <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
               <TabList onChange={handleChange}>
                 <StyledTab label="Agents" value="1" />
-                <StyledTab label="Project Groups" value="2" />
-                <StyledTab label="Transfer Types" value="3" />
+                <StyledTab label="Category" value="2" />
+                <StyledTab label="Project Groups" value="3" />
+                <StyledTab label="Transfer Types" value="4" />
               </TabList>
             </Box>
             <TabPanel value="1" sx={{ paddingTop: 2, paddingBottom: 2 }}>
               <SettingAgent />
             </TabPanel>
             <TabPanel value="2" sx={{ paddingTop: 2, paddingBottom: 2 }}>
-              <SettingPrjGrp />
+              <SettingCategory />
             </TabPanel>
             <TabPanel value="3" sx={{ paddingTop: 2, paddingBottom: 2 }}>
+              <SettingPrjGrp />
+            </TabPanel>
+            <TabPanel value="4" sx={{ paddingTop: 2, paddingBottom: 2 }}>
               <SettingTransType />
             </TabPanel>
           </TabContext>

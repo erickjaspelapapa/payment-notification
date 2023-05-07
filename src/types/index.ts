@@ -130,3 +130,19 @@ export type projectedPayment = {
   created_dt: Date;
   updated_dt: Date;
 };
+
+export type Category = {
+  id: number;
+  created_dt: Date;
+  updated_dt: Date;
+  catDescription: string;
+  identifications: Identification[];
+};
+
+export type Identification = {
+  id?: number;
+  created_dt?: Date;
+  updated_dt?: Date;
+  idenDescription?: string;
+  catId?: number;
+};

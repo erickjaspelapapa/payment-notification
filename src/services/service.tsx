@@ -1,4 +1,5 @@
 import {
+  Category,
   agents,
   clients,
   payment,
@@ -30,6 +31,30 @@ const updateAgents = async (payload: agents) => {
 
 const deleteAgents = async (id: number) => {
   const resp = await axiosInstance.delete(`/Agent/DeleteAgent?AgentId=${id}`);
+
+  return resp;
+};
+
+const getCategory = async () => {
+  const resp = await axiosInstance.get<Category[]>("/Category/getCategories");
+
+  return resp;
+};
+
+const addCategory = async (payload: Category) => {
+  const resp = await axiosInstance.post("/Category/insertCategory", payload);
+
+  return resp;
+};
+
+const updateCategory = async (payload: Category) => {
+  const resp = await axiosInstance.put("/Category/updateCategory", payload);
+
+  return resp;
+};
+
+const deleteCategory = async (id: number) => {
+  const resp = await axiosInstance.delete(`/Category/deleteCategory?id=${id}`);
 
   return resp;
 };
@@ -165,6 +190,10 @@ export default {
   addAgents,
   updateAgents,
   deleteAgents,
+  getCategory,
+  addCategory,
+  updateCategory,
+  deleteCategory,
   getProjectGroups,
   addProjectGroups,
   updateProjectGroups,

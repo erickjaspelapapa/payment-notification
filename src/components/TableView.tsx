@@ -1,12 +1,13 @@
 import { FolderOff } from "@mui/icons-material";
 import { Box, Stack, Typography } from "@mui/material";
 import grey from "@mui/material/colors/grey";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { DataGrid, GridColDef, GridRowParams } from "@mui/x-data-grid";
 
 type TableViewProps = {
   columns: GridColDef[];
   data?: any;
   loading: boolean;
+  onClick?: (params?: GridRowParams<any>) => void;
 };
 
 const NoRowsOverlay: React.FC = () => (
@@ -19,10 +20,11 @@ const NoRowsOverlay: React.FC = () => (
   </Stack>
 );
 
-const TableView = ({ columns, data, loading }: TableViewProps) => {
+const TableView = ({ columns, data, loading, onClick }: TableViewProps) => {
   return (
     <Box sx={{ height: 500, width: "100%" }}>
       <DataGrid
+        onRowClick={onClick}
         rows={data ?? []}
         columns={columns}
         loading={loading}
