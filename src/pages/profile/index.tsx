@@ -73,7 +73,7 @@ const Profile = () => {
 
   const { data: paymentList, refetch: getPaymentList } = useQuery({
     queryKey: [PAYMENT_LIST, id],
-    queryFn: () => service.getTransactionList(id),
+    queryFn: () => service.getPaymentsList(id),
   });
 
   const { data: clientSummary, refetch: getPaymentRecordsById } = useQuery({
@@ -81,8 +81,8 @@ const Profile = () => {
     queryFn: () => service.getPaymentRecordsById(id),
   });
 
-  const { mutate: getClientTransaction, isLoading: transLoading } = useMutation(
-    service.getClientTransaction,
+  const { mutate: getClientPayment, isLoading: transLoading } = useMutation(
+    service.getClientPayment,
     {
       onSuccess: (data) => {
         setPayment(data.data);
@@ -97,8 +97,8 @@ const Profile = () => {
     getPaymentRecordsById();
   }, []);
 
-  const { mutate: AddTransaction, isLoading: addLoading } = useMutation(
-    service.addTransaction,
+  const { mutate: addPayment, isLoading: addLoading } = useMutation(
+    service.addPayment,
     {
       onSuccess: (data) => {
         getPaymentList();
@@ -109,8 +109,8 @@ const Profile = () => {
       },
     }
   );
-  const { mutate: UpdateTransaction, isLoading: updateLoading } = useMutation(
-    service.updateTransaction,
+  const { mutate: updatePayment, isLoading: updateLoading } = useMutation(
+    service.updatePayment,
     {
       onSuccess: (data) => {
         getPaymentList();
@@ -124,7 +124,7 @@ const Profile = () => {
 
   const handleEditTran = (id: number) => {
     setIsNew(false);
-    getClientTransaction(id);
+    getClientPayment(id);
   };
   const handleDeleteTran = () => {};
   return (
@@ -206,9 +206,9 @@ const Profile = () => {
                       }}
                       submitTransaction={(payment) => {
                         if (isNew) {
-                          AddTransaction(payment);
+                          addPayment(payment);
                         } else {
-                          UpdateTransaction(payment);
+                          updatePayment(payment);
                         }
                       }}
                     />

@@ -133,27 +133,27 @@ const addClient = async (payload: clients) => {
   return resp;
 };
 
-const addTransaction = async (payload: paymentPayload) => {
+const addPayment = async (payload: paymentPayload) => {
   const resp = await axiosInstance.post("/Payment/insertTransaction", payload);
 
   return resp;
 };
 
-const updateTransaction = async (payload: paymentPayload) => {
-  const resp = await axiosInstance.put("/Payment/updateTransaction", payload);
+const updatePayment = async (payload: paymentPayload) => {
+  const resp = await axiosInstance.put("/Payment/updatePayment", payload);
 
   return resp;
 };
 
-const getTransactionList = async (clientId?: string) => {
+const getPaymentsList = async (clientId?: string) => {
   const resp = await axiosInstance.get<payment[]>(
-    `/Payment/getTransactionList?clientId=${clientId}`
+    `/Payment/getPaymentsList?clientId=${clientId}`
   );
 
   return resp;
 };
 
-const getClientTransaction = async (transId?: number) => {
+const getClientPayment = async (transId?: number) => {
   const resp = await axiosInstance.get<paymentPayload>(
     `/Payment/getTransaction?transId=${transId}`
   );
@@ -205,10 +205,10 @@ export default {
   getClients,
   addClient,
   getClientsById,
-  addTransaction,
-  updateTransaction,
-  getTransactionList,
-  getClientTransaction,
+  addPayment,
+  updatePayment,
+  getPaymentsList,
+  getClientPayment,
   getPaymentRecords,
   getPaymentRecordsById,
   getProjectedPayments,
