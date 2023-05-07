@@ -24,12 +24,17 @@ import { useMutation } from "react-query";
 import { toast } from "react-toastify";
 
 import ClientProfile from "./profile.main";
-import { CLIENT_PROFILE, PAYMENT_LIST } from "../../utils/const";
+import {
+  CLIENT_PROFILE,
+  CLIENT_SUMMARY,
+  PAYMENT_LIST,
+} from "../../utils/const";
 import service from "../../services/service";
 import CreateTransaction from "./profile.createTransaction";
 import TableView from "../../components/TableView";
 import { columns } from "./+columns";
 import { paymentPayload } from "../../types";
+import ClientSummary from "./profile.clientSummary";
 
 const StyledTab = styled(Tab)(() => ({
   color: "#6a6a6a",
@@ -71,27 +76,25 @@ const Profile = () => {
     queryFn: () => service.getTransactionList(id),
   });
 
-  // const { data: transaction, refetch: getClientTransaction } = useQuery({
-  //   queryKey: [PAYMENT_TRANSACTION, transId],
-  //   queryFn: () => (transId != 0 ? service.getClientTransaction(transId) : {}),
-  // });
+  const { data: clientSummary, refetch: getPaymentRecordsById } = useQuery({
+    queryKey: [CLIENT_SUMMARY, id],
+    queryFn: () => service.getPaymentRecordsById(id),
+  });
 
   const { mutate: getClientTransaction, isLoading: transLoading } = useMutation(
     service.getClientTransaction,
     {
       onSuccess: (data) => {
-        console.log(data.data);
         setPayment(data.data);
       },
-      onError: (data) => {
-        console.log(data);
-      },
+      onError: (data) => {},
     }
   );
 
   React.useEffect(() => {
     getProfile();
     getPaymentList();
+    getPaymentRecordsById();
   }, []);
 
   const { mutate: AddTransaction, isLoading: addLoading } = useMutation(
@@ -211,10 +214,12 @@ const Profile = () => {
                     />
                   )}
                 </TabPanel>
-                <TabPanel
-                  value="2"
-                  sx={{ paddingTop: 2, paddingBottom: 2 }}
-                ></TabPanel>
+                <TabPanel value="2" sx={{ paddingTop: 2, paddingBottom: 2 }}>
+                  <ClientSummary
+                    profile={client?.data}
+                    summary={clientSummary?.data}
+                  />
+                </TabPanel>
               </TabContext>
             </Grid>
           </Grid>

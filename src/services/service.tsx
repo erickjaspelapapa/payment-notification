@@ -144,6 +144,14 @@ const getPaymentRecords = async () => {
   return resp;
 };
 
+const getPaymentRecordsById = async (clientid?: string) => {
+  const resp = await axiosInstance.get<paymentRecords>(
+    `/Payment/getPaymentRecordsById?clientId=${clientid}`
+  );
+
+  return resp;
+};
+
 const getProjectedPayments = async (id: string) => {
   const resp = await axiosInstance.get<projectedPayment[]>(
     `Payment/getProjected?id=${id}`
@@ -173,5 +181,6 @@ export default {
   getTransactionList,
   getClientTransaction,
   getPaymentRecords,
+  getPaymentRecordsById,
   getProjectedPayments,
 };

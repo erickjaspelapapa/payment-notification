@@ -116,7 +116,7 @@ const Home = () => {
             spacing={1}
           >
             <Image
-              src={"./logo.png"}
+              src={"../logo.png"}
               width={65}
               style={{ margin: 0, border: "solid 1px #fff" }}
             />
