@@ -1,5 +1,7 @@
 import {
   Category,
+  TransPayload,
+  Transaction,
   agents,
   clients,
   payment,
@@ -185,6 +187,40 @@ const getProjectedPayments = async (id: string) => {
   return resp;
 };
 
+const getTransaction = async () => {
+  const resp = await axiosInstance.get<Transaction[]>(
+    "/Transaction/getTransactions"
+  );
+
+  return resp;
+};
+
+const addTransaction = async (payload: TransPayload) => {
+  const resp = await axiosInstance.post(
+    "/Transaction/InsertTransaction",
+    payload
+  );
+
+  return resp;
+};
+
+const updateTransaction = async (payload: TransPayload) => {
+  const resp = await axiosInstance.put(
+    "/Transaction/UpdateTransaction",
+    payload
+  );
+
+  return resp;
+};
+
+const deleteTransaction = async (id: number) => {
+  const resp = await axiosInstance.delete(
+    `/Transaction/DeleteTransaction?TransId=${id}`
+  );
+
+  return resp;
+};
+
 export default {
   getAgents,
   addAgents,
@@ -212,4 +248,8 @@ export default {
   getPaymentRecords,
   getPaymentRecordsById,
   getProjectedPayments,
+  getTransaction,
+  addTransaction,
+  updateTransaction,
+  deleteTransaction,
 };

@@ -232,7 +232,7 @@ const CreateTransaction = ({
           value={payment?.remarks}
           onChange={onEventChange}
           rows={10}
-        ></TextField>
+        />
         <Stack
           direction="row"
           sx={{ marginTop: 1, justifyContent: "flex-end" }}

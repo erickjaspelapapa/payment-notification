@@ -146,3 +146,34 @@ export type Identification = {
   idenDescription?: string;
   catId?: number;
 };
+
+export type TransPayload = Omit<Transaction, "category" | "identification">;
+
+export type Transaction = {
+  category?: TransCategory;
+  identification?: TransIdentification;
+  transDate: Date;
+  amount: number;
+  catId?: number;
+  identId?: number;
+  transDescription: string;
+  remarks: string;
+  id: number;
+  created_dt: Date;
+  updated_dt: Date;
+};
+
+export type TransCategory = {
+  catDescription: string;
+  id: number;
+  created_dt: Date;
+  updated_dt: Date;
+};
+
+export type TransIdentification = {
+  idenDescription: string;
+  catId: number;
+  id: number;
+  created_dt: Date;
+  updated_dt: Date;
+};

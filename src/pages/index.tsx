@@ -16,6 +16,7 @@ import GroupIcon from "@mui/icons-material/Group";
 import AppsIcon from "@mui/icons-material/Apps";
 import GroupAddIcon from "@mui/icons-material/GroupAdd";
 import FolderSharedIcon from "@mui/icons-material/FolderShared";
+import RequestQuoteIcon from "@mui/icons-material/RequestQuote";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { Outlet, useNavigate } from "react-router-dom";
 import { Image } from "mui-image";
@@ -43,6 +44,11 @@ const primaryNavItem: DrawerNavItem[] = [
     title: "Payment Records",
     route: "/records",
     icon: <FolderSharedIcon />,
+  },
+  {
+    title: "Company Transaction",
+    route: "/transaction",
+    icon: <RequestQuoteIcon />,
   },
   // {
   //   title: "Import Clients",
