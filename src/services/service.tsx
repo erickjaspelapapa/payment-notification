@@ -1,5 +1,6 @@
 import {
   Category,
+  Identification,
   TransPayload,
   Transaction,
   agents,
@@ -39,6 +40,14 @@ const deleteAgents = async (id: number) => {
 
 const getCategory = async () => {
   const resp = await axiosInstance.get<Category[]>("/Category/getCategories");
+
+  return resp;
+};
+
+const getIdentification = async () => {
+  const resp = await axiosInstance.get<Identification[]>(
+    "/Category/getIdentification"
+  );
 
   return resp;
 };
@@ -227,6 +236,7 @@ export default {
   updateAgents,
   deleteAgents,
   getCategory,
+  getIdentification,
   addCategory,
   updateCategory,
   deleteCategory,

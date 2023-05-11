@@ -7,7 +7,11 @@ import { toast } from "react-toastify";
 import TableView from "../../components/TableView";
 import service from "../../services/service";
 import { Category, TransPayload, Transaction } from "../../types";
-import { SETTINGS_CATEGORY, TRANSACTION_LIST } from "../../utils/const";
+import {
+  SETTINGS_CATEGORY,
+  SETTINGS_IDENTIFICATION,
+  TRANSACTION_LIST,
+} from "../../utils/const";
 import columns from "./+columns";
 import TransactionDelete from "./transaction.deleteTrans";
 import TransactionDialog from "./transaction.dialog";
@@ -20,14 +24,6 @@ const defaultTransaction: TransPayload = {
   amount: 0,
   transDescription: "",
   remarks: "",
-};
-
-const defaultCategory: Category = {
-  id: 0,
-  created_dt: new Date(),
-  updated_dt: new Date(),
-  catDescription: "",
-  identifications: [],
 };
 
 const TransactionList = () => {
@@ -49,9 +45,15 @@ const TransactionList = () => {
     queryFn: service.getCategory,
   });
 
+  const { data: identification, refetch: getIdentification } = useQuery({
+    queryKey: SETTINGS_IDENTIFICATION,
+    queryFn: service.getIdentification,
+  });
+
   React.useEffect(() => {
     getList();
     getCategories();
+    getIdentification();
   }, []);
 
   const handleOpenDialog = () => {
@@ -120,8 +122,6 @@ const TransactionList = () => {
 
   const handleDialogEdit = (transaction: Transaction) => {
     setTransaction(transaction);
-    const currCat = categories?.data.find((f) => f.id == transaction.catId);
-    setCurrCategory(currCat);
     setIsNew(false);
     setOpenDialog(true);
   };
@@ -152,7 +152,7 @@ const TransactionList = () => {
       />
       <TransactionDialog
         categories={categories?.data}
-        currCategory={currCategory ?? defaultCategory}
+        identification={identification?.data ?? []}
         transaction={transaction ?? defaultTransaction}
         setTransaction={(transaction) => {
           setTransaction(transaction);

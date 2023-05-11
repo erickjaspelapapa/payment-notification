@@ -12,13 +12,12 @@ import {
   TextField,
 } from "@mui/material";
 
-import { Category, Transaction } from "../../types";
+import { Category, Identification, Transaction } from "../../types";
 import { DatePicker } from "@mui/x-date-pickers";
-import React from "react";
 
 type TransactionDialogProps = {
   categories?: Category[];
-  currCategory: Category;
+  identification: Identification[];
   transaction: Transaction;
   setTransaction: (transaction?: Transaction) => void;
   isNew: boolean;
@@ -29,7 +28,7 @@ type TransactionDialogProps = {
 
 const TransactionDialog = ({
   categories,
-  currCategory,
+  identification,
   transaction,
   state,
   isNew,
@@ -37,13 +36,6 @@ const TransactionDialog = ({
   closeDialog,
   submit,
 }: TransactionDialogProps) => {
-  const [selected, setSelected] = React.useState<Category>();
-
-  const getIdentification = (id: number) => {
-    const category = categories?.find((f) => f.id == id) as Category;
-    setSelected(category);
-  };
-
   return (
     <Dialog fullWidth open={state} onClose={closeDialog}>
       <DialogTitle>{`${isNew ? "New" : "Update"} Transaction`}</DialogTitle>
@@ -86,7 +78,6 @@ const TransactionDialog = ({
                 ...transaction,
                 catId: catId,
               });
-              getIdentification(catId);
             }}
             sx={{ marginBottom: 1, marginTop: 1 }}
           >
@@ -114,13 +105,15 @@ const TransactionDialog = ({
             }}
             sx={{ marginBottom: 1, marginTop: 1 }}
           >
-            {selected?.identifications.map((ind, index) => {
-              return (
-                <MenuItem key={index} value={ind.id}>
-                  {ind.idenDescription}
-                </MenuItem>
-              );
-            })}
+            {identification
+              ?.filter((f) => f.catId === transaction.catId)
+              .map((ind, index) => {
+                return (
+                  <MenuItem key={index} value={ind.id}>
+                    {ind.idenDescription}
+                  </MenuItem>
+                );
+              })}
           </Select>
         </FormControl>
         <TextField
