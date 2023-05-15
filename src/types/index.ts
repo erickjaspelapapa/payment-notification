@@ -177,3 +177,29 @@ export type TransIdentification = {
   created_dt: Date;
   updated_dt: Date;
 };
+
+export type DailySummary = {
+  totalClientPayment?: number;
+  initialCapitalInvestment?: number;
+  otherCashoutPayments?: number;
+  otherCashinPayments?: number;
+  agentsCommission?: number;
+  notarialFee?: number;
+  processingFee?: number;
+  previousExpenses?: number;
+  pendingPaymentCasaPrimoDTRCashIn?: number;
+  pendingPaymentCasaPrimoDTRCashOut?: number;
+  pendingPaymentCasaPrimoPassbookCashIn?: number;
+  pendingPaymentCasaPrimoPassbookCashOut?: number;
+  fixedExpense?: number;
+  controlledExpense?: number;
+  pettyCashPettyCashIn?: number;
+  id?: number;
+  created_dt?: Date;
+  updated_dt?: Date;
+};
+
+export type DailySummaryPayload = {
+  fromDate: Date;
+  toDate: Date;
+};

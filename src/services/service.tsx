@@ -1,5 +1,8 @@
+import { format } from "date-fns";
 import {
   Category,
+  DailySummary,
+  DailySummaryPayload,
   Identification,
   TransPayload,
   Transaction,
@@ -196,6 +199,18 @@ const getProjectedPayments = async (id: string) => {
   return resp;
 };
 
+const getDailySummary = async (payload: DailySummaryPayload) => {
+  const resp = await axiosInstance.get<DailySummary[]>(
+    `/Transaction/getDailySummary?FromDate=${format(
+      payload.fromDate,
+      "yyyy-MM-dd"
+    )}&ToDate=${format(payload.toDate, "yyyy-MM-dd")}`
+  );
+  console.log(resp.data);
+
+  return resp.data[0];
+};
+
 const getTransaction = async () => {
   const resp = await axiosInstance.get<Transaction[]>(
     "/Transaction/getTransactions"
@@ -259,6 +274,7 @@ export default {
   getPaymentRecordsById,
   getProjectedPayments,
   getTransaction,
+  getDailySummary,
   addTransaction,
   updateTransaction,
   deleteTransaction,

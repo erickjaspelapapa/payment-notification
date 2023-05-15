@@ -7,6 +7,7 @@ import TabPanel from "@mui/lab/TabPanel";
 import React from "react";
 
 import TransactionList from "./transaction.list";
+import DailySummary from "./transaction.daily-summary";
 
 const StyledTab = styled(Tab)(() => ({
   color: "#6a6a6a",
@@ -39,16 +40,15 @@ const Transactions = () => {
                 <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
                   <TabList onChange={handleChange}>
                     <StyledTab label="Transaction" value="1" />
-                    <StyledTab label="Summary" value="2" />
+                    <StyledTab label="Daily Summary" value="2" />
                   </TabList>
                 </Box>
                 <TabPanel value="1" sx={{ paddingTop: 2, paddingBottom: 2 }}>
                   <TransactionList />
                 </TabPanel>
-                <TabPanel
-                  value="2"
-                  sx={{ paddingTop: 2, paddingBottom: 2 }}
-                ></TabPanel>
+                <TabPanel value="2" sx={{ paddingTop: 2, paddingBottom: 2 }}>
+                  <DailySummary />
+                </TabPanel>
               </TabContext>
             </Grid>
           </Grid>
