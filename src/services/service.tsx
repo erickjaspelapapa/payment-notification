@@ -1,8 +1,8 @@
 import { format } from "date-fns";
 import {
   Category,
-  DailySummary,
   DailySummaryPayload,
+  DailySummaryResponse,
   Identification,
   TransPayload,
   Transaction,
@@ -148,7 +148,7 @@ const addClient = async (payload: clients) => {
 };
 
 const addPayment = async (payload: paymentPayload) => {
-  const resp = await axiosInstance.post("/Payment/insertTransaction", payload);
+  const resp = await axiosInstance.post("/Payment/insertPayment", payload);
 
   return resp;
 };
@@ -159,9 +159,9 @@ const updatePayment = async (payload: paymentPayload) => {
   return resp;
 };
 
-const getPaymentsList = async (clientId?: string) => {
+const getPaymentList = async (clientId?: string) => {
   const resp = await axiosInstance.get<payment[]>(
-    `/Payment/getPaymentsList?clientId=${clientId}`
+    `/Payment/getPaymentList?clientId=${clientId}`
   );
 
   return resp;
@@ -169,7 +169,7 @@ const getPaymentsList = async (clientId?: string) => {
 
 const getClientPayment = async (transId?: number) => {
   const resp = await axiosInstance.get<paymentPayload>(
-    `/Payment/getTransaction?transId=${transId}`
+    `/Payment/getPayment?transId=${transId}`
   );
 
   return resp;
@@ -200,7 +200,7 @@ const getProjectedPayments = async (id: string) => {
 };
 
 const getDailySummary = async (payload: DailySummaryPayload) => {
-  const resp = await axiosInstance.get<DailySummary[]>(
+  const resp = await axiosInstance.get<DailySummaryResponse[]>(
     `/Transaction/getDailySummary?FromDate=${format(
       payload.fromDate,
       "yyyy-MM-dd"
@@ -268,7 +268,7 @@ export default {
   getClientsById,
   addPayment,
   updatePayment,
-  getPaymentsList,
+  getPaymentList,
   getClientPayment,
   getPaymentRecords,
   getPaymentRecordsById,

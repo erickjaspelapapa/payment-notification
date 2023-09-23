@@ -178,7 +178,7 @@ export type TransIdentification = {
   updated_dt: Date;
 };
 
-export type DailySummary = {
+export type DailySummaryResponse = {
   totalClientPayment?: number;
   initialCapitalInvestment?: number;
   otherCashoutPayments?: number;

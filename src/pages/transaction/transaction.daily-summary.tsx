@@ -21,7 +21,7 @@ import styled from "@emotion/styled";
 
 import { DAILY_SUMMARY } from "../../utils/const";
 import service from "../../services/service";
-import { DailySummaryPayload } from "../../types";
+import { DailySummaryPayload, DailySummaryResponse } from "../../types";
 
 const StyledCell = styled(TableCell)`
   border: 1px solid gainsboro;
@@ -99,6 +99,69 @@ const DailySummary = () => {
   useEffect(() => {
     getDailySummary();
   }, []);
+
+  const SummarizeValues = (value?: DailySummaryResponse, type?: string) => {
+    const CasaPrimoDTRCashIn = value?.pendingPaymentCasaPrimoDTRCashIn ?? 0;
+    const CasaPrimoDTRCashOut = value?.pendingPaymentCasaPrimoDTRCashOut ?? 0;
+    const CasaPrimoPassbookCashIn =
+      value?.pendingPaymentCasaPrimoPassbookCashIn ?? 0;
+    const CasaPrimoPassbookCashOut =
+      value?.pendingPaymentCasaPrimoPassbookCashOut ?? 0;
+    const totalClientPayment = value?.totalClientPayment ?? 0;
+    const initialCapitalInvestment = value?.initialCapitalInvestment ?? 0;
+    const otherCashinPayments = value?.otherCashinPayments ?? 0;
+    const agentsCommission = value?.agentsCommission ?? 0;
+    const notarialFee = value?.notarialFee ?? 0;
+    const processingFee = value?.processingFee ?? 0;
+    const fixedExpense = value?.fixedExpense ?? 0;
+    const controlledExpense = value?.controlledExpense ?? 0;
+    const otherCashoutPayments = value?.otherCashoutPayments ?? 0;
+    const previousExpenses = value?.previousExpenses ?? 0;
+    const PettyCashIn = value?.pettyCashPettyCashIn ?? 0;
+    const PNBSavings = 0;
+
+    const CasaPrimoDTR = CasaPrimoDTRCashIn - CasaPrimoDTRCashOut;
+    const CasaPrimoPassbook =
+      CasaPrimoPassbookCashIn - CasaPrimoPassbookCashOut;
+    const TotalCashIn = CasaPrimoDTRCashIn + CasaPrimoPassbookCashIn;
+    const TotalCashOut = CasaPrimoDTRCashOut + CasaPrimoPassbookCashOut;
+    const TotalBalance =
+      CasaPrimoDTRCashIn +
+      CasaPrimoPassbookCashIn +
+      CasaPrimoDTRCashOut +
+      CasaPrimoPassbookCashOut;
+    const TotalGrossSales =
+      totalClientPayment +
+      initialCapitalInvestment +
+      otherCashinPayments +
+      CasaPrimoDTR +
+      CasaPrimoPassbook;
+    const TotalExpense =
+      agentsCommission +
+      notarialFee +
+      processingFee +
+      fixedExpense +
+      controlledExpense +
+      otherCashoutPayments;
+    const AccumExpense = previousExpenses + TotalExpense;
+    const TotalNetSales = TotalGrossSales - AccumExpense;
+    const ChinaBankCheck = TotalNetSales - (PettyCashIn + PNBSavings);
+    const ChinaBankLessPending = ChinaBankCheck - CasaPrimoPassbook;
+    const TotalDailyNetSales = ChinaBankLessPending + CasaPrimoDTR;
+
+    if (type === "CasaPrimoDTR") return CasaPrimoDTR;
+    if (type === "CasaPrimoPassbook") return CasaPrimoPassbook;
+    if (type === "TotalCashIn") return TotalCashIn;
+    if (type === "TotalCashOut") return TotalCashOut;
+    if (type === "TotalBalance") return TotalBalance;
+    if (type === "TotalGrossSales") return TotalGrossSales;
+    if (type === "TotalExpense") return TotalExpense;
+    if (type === "AccumExpense") return AccumExpense;
+    if (type === "TotalNetSales") return TotalNetSales;
+    if (type === "ChinaBankCheck") return ChinaBankCheck;
+    if (type === "ChinaBankLessPending") return ChinaBankLessPending;
+    if (type === "TotalDailyNetSales") return TotalDailyNetSales;
+  };
 
   return (
     <Box>
@@ -203,8 +266,7 @@ const DailySummary = () => {
                       {summary?.pendingPaymentCasaPrimoDTRCashOut ?? 0}
                     </CellCashOut>
                     <CellBalance align="right">
-                      {(summary?.pendingPaymentCasaPrimoDTRCashIn ?? 0) -
-                        (summary?.pendingPaymentCasaPrimoDTRCashOut ?? 0)}
+                      {SummarizeValues(summary, "CasaPrimoDTR")}
                     </CellBalance>
                   </TableRow>
                   <TableRow>
@@ -218,25 +280,19 @@ const DailySummary = () => {
                       {summary?.pendingPaymentCasaPrimoPassbookCashOut ?? 0}
                     </CellCashOut>
                     <CellBalance align="right">
-                      {(summary?.pendingPaymentCasaPrimoPassbookCashIn ?? 0) -
-                        (summary?.pendingPaymentCasaPrimoPassbookCashOut ?? 0)}
+                      {SummarizeValues(summary, "CasaPrimoPassbook")}
                     </CellBalance>
                   </TableRow>
                   <TableRow>
                     <StyledCell sx={{ fontWeight: 600 }}>Total</StyledCell>
                     <CellCashIn align="right" sx={{ fontWeight: 600 }}>
-                      {(summary?.pendingPaymentCasaPrimoDTRCashIn ?? 0) +
-                        (summary?.pendingPaymentCasaPrimoPassbookCashIn ?? 0)}
+                      {SummarizeValues(summary, "TotalCashIn")}
                     </CellCashIn>
                     <CellCashOut align="right" sx={{ fontWeight: 600 }}>
-                      {(summary?.pendingPaymentCasaPrimoDTRCashOut ?? 0) +
-                        (summary?.pendingPaymentCasaPrimoPassbookCashOut ?? 0)}
+                      {SummarizeValues(summary, "TotalCashOut")}
                     </CellCashOut>
                     <CellBalance align="right" sx={{ fontWeight: 600 }}>
-                      {(summary?.pendingPaymentCasaPrimoDTRCashIn ?? 0) +
-                        (summary?.pendingPaymentCasaPrimoPassbookCashIn ?? 0) -
-                        (summary?.pendingPaymentCasaPrimoDTRCashOut ?? 0) +
-                        (summary?.pendingPaymentCasaPrimoPassbookCashOut ?? 0)}
+                      {SummarizeValues(summary, "TotalBalance")}
                     </CellBalance>
                   </TableRow>
                 </TableBody>
@@ -249,15 +305,7 @@ const DailySummary = () => {
               />
               <DailyValuesContainer
                 label="Total Gross Sales"
-                value={`${
-                  (summary?.totalClientPayment ?? 0) +
-                  (summary?.initialCapitalInvestment ?? 0) +
-                  (summary?.otherCashinPayments ?? 0) +
-                  ((summary?.pendingPaymentCasaPrimoDTRCashIn ?? 0) -
-                    (summary?.pendingPaymentCasaPrimoDTRCashOut ?? 0)) +
-                  ((summary?.pendingPaymentCasaPrimoPassbookCashIn ?? 0) -
-                    (summary?.pendingPaymentCasaPrimoPassbookCashOut ?? 0))
-                }`}
+                value={SummarizeValues(summary, "TotalGrossSales")?.toString()}
                 bold
                 boldValue
                 alignment="center"
@@ -313,14 +361,7 @@ const DailySummary = () => {
                 label="Total Expense"
                 bold
                 boldValue
-                value={`${
-                  (summary?.agentsCommission ?? 0) +
-                  (summary?.notarialFee ?? 0) +
-                  (summary?.processingFee ?? 0) +
-                  (summary?.fixedExpense ?? 0) +
-                  (summary?.controlledExpense ?? 0) +
-                  (summary?.otherCashoutPayments ?? 0)
-                }`}
+                value={SummarizeValues(summary, "TotalExpense")?.toString()}
                 alignment="center"
                 marginBottom="20px"
               />
@@ -328,15 +369,7 @@ const DailySummary = () => {
                 label="Total Accumulated Expense"
                 bold
                 boldValue
-                value={`${
-                  (summary?.previousExpenses ?? 0) +
-                  (summary?.agentsCommission ?? 0) +
-                  (summary?.notarialFee ?? 0) +
-                  (summary?.processingFee ?? 0) +
-                  (summary?.fixedExpense ?? 0) +
-                  (summary?.controlledExpense ?? 0) +
-                  (summary?.otherCashoutPayments ?? 0)
-                }`}
+                value={SummarizeValues(summary, "AccumExpense")?.toString()}
                 alignment="center"
                 marginBottom="20px"
               />
@@ -344,24 +377,52 @@ const DailySummary = () => {
                 label="Total Net Sales"
                 bold
                 boldValue
-                value={`${
-                  (summary?.totalClientPayment ?? 0) +
-                  (summary?.initialCapitalInvestment ?? 0) +
-                  (summary?.otherCashinPayments ?? 0) +
-                  ((summary?.pendingPaymentCasaPrimoDTRCashIn ?? 0) -
-                    (summary?.pendingPaymentCasaPrimoDTRCashOut ?? 0)) +
-                  ((summary?.pendingPaymentCasaPrimoPassbookCashIn ?? 0) -
-                    (summary?.pendingPaymentCasaPrimoPassbookCashOut ?? 0)) -
-                  ((summary?.previousExpenses ?? 0) +
-                    (summary?.agentsCommission ?? 0) +
-                    (summary?.notarialFee ?? 0) +
-                    (summary?.processingFee ?? 0) +
-                    (summary?.fixedExpense ?? 0) +
-                    (summary?.controlledExpense ?? 0) +
-                    (summary?.otherCashoutPayments ?? 0))
-                }`}
+                value={SummarizeValues(summary, "TotalNetSales")?.toString()}
                 alignment="center"
                 marginBottom="20px"
+              />
+              <DailyValuesContainer
+                label="Banking"
+                backgroundColor=""
+                value=""
+                bold
+                boldValue
+                alignment="center"
+              />
+              <DailyValuesContainer
+                label="Chinabank Checking"
+                value={SummarizeValues(summary, "ChinaBankCheck")?.toString()}
+                alignment="center"
+              />
+              <DailyValuesContainer
+                label="Petty Cash In"
+                value={`${summary?.pettyCashPettyCashIn ?? 0}`}
+                alignment="center"
+              />
+              <DailyValuesContainer
+                label="PNB Savings"
+                value={``}
+                alignment="center"
+              />
+              <DailyValuesContainer
+                label="TOTAL NET SALES (Daily Transaction)"
+                bold
+                boldValue
+                value={SummarizeValues(
+                  summary,
+                  "TotalDailyNetSales"
+                )?.toString()}
+                alignment="center"
+              />
+              <DailyValuesContainer
+                label="Chinabank less Pending Passbook"
+                bold
+                boldValue
+                value={SummarizeValues(
+                  summary,
+                  "ChinaBankLessPending"
+                )?.toString()}
+                alignment="center"
               />
             </Box>
           </Box>

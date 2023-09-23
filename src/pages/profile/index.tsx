@@ -73,7 +73,7 @@ const Profile = () => {
 
   const { data: paymentList, refetch: getPaymentList } = useQuery({
     queryKey: [PAYMENT_LIST, id],
-    queryFn: () => service.getPaymentsList(id),
+    queryFn: () => service.getPaymentList(id),
   });
 
   const { data: clientSummary, refetch: getPaymentRecordsById } = useQuery({
